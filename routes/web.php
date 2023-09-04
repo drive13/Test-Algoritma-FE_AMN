@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +20,14 @@ Route::get('/', function () {
 
 Route::get('/alamat', function () {
     return view('alamat');
+});
+
+Route::get('/penjualan', function () {
+    return view('penjualan');
+});
+
+Route::get('/products', function () {
+    $product = Product::get();
+
+    return response()->json($product);
 });
