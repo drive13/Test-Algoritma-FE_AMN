@@ -27,6 +27,16 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td> 
+                            <select class="form-select select-barang" name="barang"> 
+                                <option value="">Pilih Barang</option> 
+                                <!-- Daftar opsi barang di sini --> 
+                            </select> 
+                        </td> 
+                        <td><input type="number" min="1" name="qty" value="1" required></td> 
+                        <td>Rp. <input type="number" min="0" name="harga" required></td> 
+                        <td class="text-center"><button class="btn btn-sm btn-danger remove-row">X</button></td> 
+                        </tr>
                         {{-- <td>
                             <select class="form-select select-barang" name="barang">
                                 <option value="">Pilih Barang</option>
@@ -50,42 +60,34 @@
         {{-- My JS --}}
         <script>
             $(document).ready(function(){
-                // Tangani peristiwa klik pada elemen dengan class select-barang
-                // Fungsi untuk mengisi opsi-opsi select dengan data barang
+                loadSelectOptions($(".select-barang:first")); 
                 function loadSelectOptions(selectElement) {
-                    // Periksa apakah opsi-opsi sudah diisi sebelumnya
                     if (selectElement.find('option').length > 1) {
-                        return; // Jika sudah diisi sebelumnya, keluar dari fungsi
+                        return; 
                     }
-
-                    // Buat permintaan AJAX untuk mengambil data barang
+                    
                     $.ajax({
-                        url: '/products', // Ganti dengan URL endpoint yang sesuai
+                        url: '/products', 
                         method: 'GET',
                         dataType: 'json',
                         success: function (data) {
-                            // Isi opsi-opsi select dengan data yang diterima dari server
                             data.forEach(function (item) {
                                 selectElement.append($('<option>', {
-                                    value: item.id, // Gantilah 'id' dengan properti yang sesuai
-                                    text: item.nama // Gantilah 'nama_barang' dengan properti yang sesuai
+                                    value: item.id, 
+                                    text: item.nama 
                                 }));
                             });
                         },
                         error: function () {
-                            // Tangani kesalahan jika terjadi
                             alert('Terjadi kesalahan saat mengambil data barang.');
                         }
                     });
                 }
 
-                // ...
-
-                // Menambahkan baris saat tombol "Add Row" diklik
                 $("#add-row").click(function() {
                     var newRow = '<tr>' +
                         '<td>' +
-                        '    <select class="form-select select-barang" name="barang">' + // Tambahkan onchange di sini
+                        '    <select class="form-select select-barang" name="barang">' +
                         '        <option value="">Pilih Barang</option>' +
                         '        <!-- Daftar opsi barang di sini -->' +
                         '    </select>' +
@@ -96,10 +98,9 @@
                         '</tr>';
                     
                     $("tbody").append(newRow);
-                    loadSelectOptions($(".select-barang:last")); // Mengisi opsi select yang baru ditambahkan
+                    loadSelectOptions($(".select-barang:last")); 
                 });
 
-                // Menghapus baris saat tombol "X" diklik
                 $("tbody").on("click", ".remove-row", function() {
                     $(this).closest("tr").remove();
                 });
