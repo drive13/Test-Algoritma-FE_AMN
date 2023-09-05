@@ -26,6 +26,10 @@ Route::get('/penjualan', function () {
     return view('penjualan');
 });
 
+Route::get('/daftar-penjualan', function () {
+    return view('daftarpenjualan');
+});
+
 Route::get('/products', function () {
     $product = Product::get();
 
